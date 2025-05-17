@@ -17,9 +17,9 @@ void setup() {
   pinMode(PinoSensor4, INPUT);
   pinMode(PinoSensor5, INPUT);
 
-  pinMode(Motor1F, OUTPUT);
+  pinMode(Motor1F, OUTPUT);// esquerda
   pinMode(Motor1T, OUTPUT);
-  pinMode(Motor2F, OUTPUT);
+  pinMode(Motor2F, OUTPUT); //direita
   pinMode(Motor2T, OUTPUT);
 }
 
@@ -36,18 +36,18 @@ void loop() {
   Serial.print(" S4: "); Serial.print(Sensor4);
   Serial.print(" S5: "); Serial.println(Sensor5);
 
-  if (Sensor3 == HIGH) { // Centro na linha
-    moveForward(100); // Velocidade máxima
-  } else if (Sensor2 == LOW && Sensor4 == HIGH) { // Curva suave à direita
-    turnRight(80);
+  if (Sensor3 == HIGH && ((Sensor5 == 0 or Sensor1 == 0) or (Sensor2 == 0 or Sensor4 == 0) )) { // Centro na linha
+    moveForward(400); // Velocidade máxima
+  } else if (Sensor4 == HIGH && Sensor2 == LOW) { // Curva suave à direita
+    turnRight(500,20);
   } else if (Sensor2 == HIGH && Sensor4 == LOW) { // Curva suave à esquerda
-    turnLeft(80);
-  } else if (Sensor1 == LOW && Sensor5 == HIGH) { // Curva rápida à direita
-    turnRight(80);
+    turnLeft(20,500);
+  } else if (Sensor5 == HIGH && Sensor1 == LOW) { // Curva rápida à direita
+    turnRight(600,0);
   } else if (Sensor1 == HIGH && Sensor5 == LOW) { // Curva rápida à esquerda
-    turnLeft(80);
+    turnLeft(0,600);
   } else {
-    stopMotors(); // Para caso não detecte linha
+    stopMotors(); 
   }
 }
 
@@ -58,17 +58,17 @@ void moveForward(int speed) {
   analogWrite(Motor2T, 0);
 }
 
-void turnRight(int speed) {
-  analogWrite(Motor1F, speed);
+void turnRight(int speedL, int speedR) {
+  analogWrite(Motor1F, speedL);
   analogWrite(Motor1T, 0);
-  analogWrite(Motor2F, 0);
-  analogWrite(Motor2T, speed);
+  analogWrite(Motor2F, speedR);
+  analogWrite(Motor2T, 0);
 }
 
-void turnLeft(int speed) {
-  analogWrite(Motor1F, 0);
-  analogWrite(Motor1T, speed);
-  analogWrite(Motor2F, speed);
+void turnLeft(int speedL, int speedR) {
+  analogWrite(Motor1F, speedL);
+  analogWrite(Motor1T, 0);
+  analogWrite(Motor2F, speedR);
   analogWrite(Motor2T, 0);
 }
 
