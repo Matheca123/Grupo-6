@@ -37,15 +37,15 @@ void loop() {
   Serial.print(" S5: "); Serial.println(Sensor5);
 
   if (Sensor3 == HIGH && ((Sensor5 == 0 or Sensor1 == 0) or (Sensor2 == 0 or Sensor4 == 0) )) { // Centro na linha
-    moveForward(255); // Velocidade máxima
+    moveForward(235);
   } else if (Sensor5 == HIGH && Sensor1 == LOW) { // Curva rápida à direita
-    turn(255,0);
+    turn(235,0);
   } else if (Sensor1 == HIGH && Sensor5 == LOW) { // Curva rápida à esquerda
-    turn(0,255);
+    turn(0,235);
   }  else if (Sensor4 == HIGH && Sensor2 == LOW) { // Curva suave à direita
-    turn(255,40);
+    turn(235,40);
   } else if (Sensor2 == HIGH && Sensor4 == LOW) { // Curva suave à esquerda
-    turn(40,255);
+    turn(40,235);
   } else {
     stopMotors(); 
   }
